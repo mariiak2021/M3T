@@ -30,57 +30,36 @@ git clone git@github.com:mariiak2021/SAOMv1-SAOMv2-and-PanoSAM.git
 <p>
 
 Here's a quick summary of the most important files/directories in this repository:
-* `finetuneSAM.py` the fine-tuning script, which can be used for any of SAOMv1, SAOMv2 or PanoSAM training;
-* `environment.yml` the file with all requirements to set up conda environment
-* `show.py the file` used for saving output masks during testing the model
-* `testbatch.py` the file to use while testing the re-trained model performance
-* `eval_miou.py` the file to use for evaluating the output masks
-* `DSmetadataPanoSAM.json` the mapping between masksa and images for PanoSAM model DS
-* `DSmetadataSAOMv1.json` the mapping between masksa and images for SAOMv1 model DS
-  `DSmetadataSAOMv2.json` the mapping between masksa and images for SAOMv2 model DS
-* `per_segment_anything/`
-    - `automatic_mask_generator.py` - The file used for testing fine-tuned SAM version, where you can set all parameters like IoU threshold.
-    - `samwrapperpano.py` - The file used for training the model, e.g. finding the location prior for each object and getting it's nearest neighbor from the point grid.
-* `persamf/` - the foder for output of the testing/training stages
-* `dataset/`
-    - `SCDTrack2PhD.py` - The file used for setting up the dataset files for traing/testing/validation
+* `TrackEval` the folder for evaluation of the tracker part of the algorithm;
+* `requirements.txt` the file with all requirements to set up environment
+* `sort_features_last_YOLO.py` the file` used for getting the tracker results for the M3T-Round model
+* `create_MOT_anno.py` the file to create MOT format annotations
+* `yolo.py` the file to get detections in YOLOv4 format for all images in the test set
+* `obj1_416.names` the file with object lasses supported
 
 </p>
 
 
-You can then install requirements by using conda, we can create a `embclone` environment with our requirements by running
+You can install requirements by running
 ```bash
-export MY_ENV_NAME=embclip-rearrange
-export CONDA_BASE="$(dirname $(dirname "${CONDA_EXE}"))"
-export PIP_SRC="${CONDA_BASE}/envs/${MY_ENV_NAME}/pipsrc"
-conda env create --file environment.yml --name $MY_ENV_NAME
+pip3 -r install requirements.txt
 ```
 
-Download weights for the original SAM  model (ViT-H SAM model and ViT-B SAM model.) from here (place the download .ph file into the root of the folder): 
-```bash
-https://github.com/facebookresearch/segment-anything
-```
 </p>
 </details>
 
 <p>
-To train the model on several GPUs run:
+The model doesn't need any training. Just get the detection results with any detection algorithm like YOLov4, then get tracking results based on the detection:
 ```bash
-CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc_per_node=4 finetuneSAM.py --world_size 4
+sort_features_last_YOLO.py
 ```
+
+Place tracking results to the folder .../M3T/TrackEval/data/trackers/mot_challenge/ai2thor-all/detection/data. 
 
 To evaluate the model run:
 ```bash
-CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc_per_node=4 finetuneSAM.py --world_size 4  --eval_only
+cd TrackEval/scripts/
+python run_mot_challenge.py
 ```
 
-After you get the output masks for evaluation run:
-```bash
-eval_miou.py
-```
-
-To run the re-trained model in the everything mode run:
-```bash
-tesbatch.py
-```
 </p>
