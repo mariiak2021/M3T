@@ -9,7 +9,7 @@
 [[`Paper`](https://link.springer.com/chapter/10.1007/978-3-031-25825-1_18)] - accepted to [IVCNZ22](https://ivcnz2022.aut.ac.nz/)
 
 <p float="left">
-  <img src="m3tmain.JPG?raw=true" width="85%" /> 
+  <img src="m3tmain.jpg?raw=true" width="85%" /> 
 </p>
 
 In this paper, we propose an extended multiple object tracking (MOT) task definition for embodied AI visual exploration research task - multi-class, multi-instance and multi-view object tracking (M3T). The aim of the proposed M3T task is to identify the unique number of objects in the environment, observed on the agent’s way, and visible from far or close view, from different angles or visible only partially. Classic MOT algorithms are not applicable for the M3T task, as they typically target moving single-class multiple object instances in one video and track objects, visible from only one angle or camera viewpoint. Thus, we present the M3T-Round algorithm designed for a simple scenario, where an agent takes 12 image frames, while rotating 360° from the initial position in a scene. We, first, detect each object in all image frames and then track objects (without any training), using cosine similarity metric for association of object tracks. The detector part of our M3T-Round algorithm is compatible with the baseline YOLOv4 algorithm in terms of detection accuracy: a 5.26 point improvement in AP75. The tracker part of our M3T-Round algorithm shows a 4.6 point improvement in HOTA over GMOTv2 algorithm, a recent, high-performance tracking method. Moreover, we have collected a new challenging tracking dataset from AI2-Thor simulator for training and evaluation of the proposed M3T-Round algorithm.
